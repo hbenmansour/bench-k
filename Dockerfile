@@ -11,4 +11,4 @@ COPY  run_benchmark.*   /home/benchmark/
 
 WORKDIR /home/benchmark/
 
-CMD ["run_benchmark.sh"]
+ENTRYPOINT /run_benchmark.sh
