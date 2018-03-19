@@ -8,6 +8,7 @@ RUN yum -y install java-1.8.0-openjdk-headless gettext nmap-ncat python && yum c
 RUN groupadd -r -g 1001 benchmark && useradd -r -m -u 1001 -g benchmark benchmark
 
 COPY  run_benchmark.*   /home/benchmark/
+USER benchmark
 
 WORKDIR /home/benchmark/
 
