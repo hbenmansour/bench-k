@@ -11,6 +11,4 @@ ADD  ./run_benchmark.py /home/benchmark/
 ADD  ./run_benchmark.sh /home/benchmark/
 USER benchmark
 
-WORKDIR /home/benchmark/
-
-ENTRYPOINT ./run_benchmark.sh
+ENTRYPOINT ~/run_benchmark.sh
