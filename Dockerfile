@@ -10,7 +10,7 @@ RUN groupadd -r -g 1001 benchmark && useradd -r -m -u 1001 -g benchmark benchmar
 USER benchmark:benchmark
 WORKDIR /home/benchmark
 
-ADD  ../run_benchmark.py /home/benchmark/
-ADD  ../run_benchmark.sh /home/benchmark/
+ADD  ./run_benchmark.py /home/benchmark/
+ADD  ./run_benchmark.sh /home/benchmark/
 
 ENTRYPOINT run_benchmark.sh
