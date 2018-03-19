@@ -1,0 +1,14 @@
+FROM registry.access.redhat.com/rhel:7.4
+
+ENV ZOOKEEPER=my-cluster-zookeeper:2181
+ENV KAFKA=my-cluster-kafka:9092
+
+RUN yum -y install java-1.8.0-openjdk-headless gettext nmap-ncat python && yum clean all -y
+
+RUN groupadd -r -g 1001 benchmark && useradd -r -m -u 1001 -g benchmark benchmark
+
+COPY benchmark-script/ /home/benchmark/
+
+WORKDIR /home/benchmark/
+
+CMD ["run_benchmark.sh"]
