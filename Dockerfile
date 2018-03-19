@@ -13,4 +13,4 @@ USER benchmark
 
 WORKDIR /home/benchmark/
 
-ENTRYPOINT /run_benchmark.sh
+ENTRYPOINT ./run_benchmark.sh
