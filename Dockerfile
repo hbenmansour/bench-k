@@ -34,6 +34,6 @@ WORKDIR $KAFKA_HOME
 COPY  ./scripts $KAFKA_HOME 
 
 USER kafka:kafka
-CMD ["echo", "hello this for bench"]
+CMD ["tail"," -f"," /dev/null"]
 
 #CMD ["/opt/kafka/run_benchmark.sh"]
