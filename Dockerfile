@@ -35,4 +35,4 @@ COPY  ./scripts $KAFKA_HOME
 
 USER kafka:kafka
 
-CMD ["/opt/kafka/run_benchmark.sh"]
+#CMD ["/opt/kafka/run_benchmark.sh"]
