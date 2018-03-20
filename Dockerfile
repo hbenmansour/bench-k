@@ -33,7 +33,7 @@ RUN curl -O https://www.apache.org/dist/kafka/${KAFKA_VERSION}/kafka_${SCALA_VER
 WORKDIR $KAFKA_HOME
 COPY  ./scripts $KAFKA_HOME 
 
-#USER kafka:kafka
-#CMD tail -f /dev/null
+USER kafka:kafka
+CMD tail -f /dev/null
 
-CMD ["/bin/bash", "-c" , "/opt/kafka/run_benchmark.sh"]
+#CMD ["/bin/bash", "-c" , "/opt/kafka/run_benchmark.sh"]
