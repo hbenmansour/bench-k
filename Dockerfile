@@ -36,4 +36,4 @@ COPY  ./scripts $KAFKA_HOME
 USER kafka:kafka
 #CMD tail -f /dev/null
 
-CMD ["/opt/kafka/run_benchmark.sh"]
+ENTRYPOINT /opt/kafka/run_benchmark.sh
