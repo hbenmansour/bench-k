@@ -1,0 +1,97 @@
+apiVersion: v1
+kind: Template
+metadata:
+  name: job-kafka-bench
+objects:
+- apiVersion: batch/v1
+  kind: Job
+  metadata:
+    labels:
+      job-name: ${JOB_NAME}
+    name: ${JOB_NAME}
+  spec:
+    completions: 1
+    parallelism: 1
+    template:
+      metadata:
+        labels:
+          job-name: ${JOB_NAME}
+        name: ${JOB_NAME}
+      spec:
+        containers:
+        - command:
+          - /opt/kafka/run_benchmark.sh
+          env:
+          - name: TOPIC
+            value: ${PARAM_TOPIC}
+          - name: THROUGHPUT
+            value: ${PARAM_THROUGHPUT}
+          - name: REPLICATION
+            value: ${PARAM_REPLICATION}
+          - name: N_PRODUCERS
+            value: ${PARAM_N_PRODUCERS}
+          - name: N_PARTITIONS
+            value: ${PARAM_N_PARTITIONS}
+          - name: N_MSG
+            value: ${PARAM_N_MSG}
+          - name: N_ITER
+            value: ${PARAM_N_ITER}
+          - name: N_CONSUMERS
+            value: ${PARAM_N_CONSUMERS}
+          - name: MSG_SIZE
+            value: ${PARAM_MSG_SIZE}
+          - name: ACK
+            value: ${PARAM_ACK}
+          image: ${JOB_IMAGE}
+          imagePullPolicy: Always
+          name: ${JOB_NAME}
+        restartPolicy: OnFailure
+parameters:
+- description: Job name
+  displayName: Job name
+  name: JOB_NAME
+  value: job-kafka-bench
+- description: Job image
+  displayName: Job image
+  name: JOB_IMAGE
+  value:  172.30.203.45:5000/strimzi/bench-k:latest
+- description: Bench parameter - Topic
+  displayName: Bench parameter - Topic
+  name: PARAM_TOPIC
+  value: mybench
+- description: Bench parameter - THROUGHPUT
+  displayName: Bench parameter - THROUGHPUT
+  name: PARAM_THROUGHPUT
+  value: "1000"
+- description: Bench parameter - REPLICATION
+  displayName: Bench parameter - REPLICATION
+  name: PARAM_REPLICATION
+  value: "1"
+- description: Bench parameter - N_PRODUCERS
+  displayName: Bench parameter - N_PRODUCERS
+  name: PARAM_N_PRODUCERS
+  value: "1"
+- description: Bench parameter - N_PARTITIONS
+  displayName: Bench parameter - N_PARTITIONS
+  name: PARAM_N_PARTITIONS
+  value: "1"
+- description: Bench parameter - N_MSG
+  displayName: Bench parameter - N_MSG
+  name: PARAM_N_MSG
+  value: "1000"
+- description: Bench parameter - N_ITER
+  displayName: Bench parameter - N_ITER
+  name: PARAM_N_ITER
+  value: "1"
+- description: Bench parameter - N_CONSUMERS
+  displayName: Bench parameter - N_CONSUMERS
+  name: PARAM_N_CONSUMERS
+  value: "1"
+- description: Bench parameter - MSG_SIZE
+  displayName: Bench parameter - MSG_SIZE
+  name: PARAM_MSG_SIZE
+  value: "100"
+- description: Bench parameter - ACK
+  displayName: Bench parameter - ACK
+  name: PARAM_ACK
+  value: "None"
