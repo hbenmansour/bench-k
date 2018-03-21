@@ -32,6 +32,7 @@ RUN curl -O https://www.apache.org/dist/kafka/${KAFKA_VERSION}/kafka_${SCALA_VER
 
 WORKDIR $KAFKA_HOME
 COPY  ./scripts $KAFKA_HOME 
+RUN chmod g+x $KAFKA_HOME/run_benchmark.sh $KAFKA_HOME/run_benchmark.py
 
 USER kafka:kafka
 CMD tail -f /dev/null
