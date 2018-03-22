@@ -51,6 +51,7 @@ parameters:
   displayName: Job name
   name: JOB_NAME
   value: job-kafka-bench
+#Update the image repo according to your project/registry.
 - description: Job image
   displayName: Job image
   name: JOB_IMAGE

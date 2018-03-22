@@ -55,4 +55,6 @@ Run a job with customized parameter :
 oc new-app job-kafka-bench -p JOB_NAME=mybenchtest -p PARAM_TOPIC=mytopic
 ```
 
+PS Update the image repo according to your repo/project.
+```
 
