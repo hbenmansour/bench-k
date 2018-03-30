@@ -15,7 +15,7 @@ ACK="None"
 N_CONSUMERS=1
 N_PRODUCERS=1
 N_ITER=1
-RETENTION_MS=7200000
+TOPIC_CONFIG="retention.ms 7200000"
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-z","--zookeeper", help="address of the zookeeper cluster",required=True)
@@ -32,7 +32,7 @@ parser.add_argument("-nc","--nconsumers", help="number of consumers",type=int,de
 parser.add_argument("-np","--nproducers", help="number of producers",type=int,default=N_PRODUCERS)
 parser.add_argument("-f","--file", help="file where to store metrics",default=None)
 parser.add_argument("-v","--verbose", help="whether or not it should print verbose logging messages",type=bool,default=True)
-parser.add_argument("-re","--config retention.ms", help="What's the retention config in ms for the topic",type=int,default=RETENTION_MS)
+parser.add_argument("-re","--config ", help="What's the retention config in ms for the topic",default=TOPIC_COMFIG)
 args = parser.parse_args()
 
 if args.verbose:
@@ -96,7 +96,7 @@ for i in range(N_ITER):
         print "Creating topic"
     exitcode = subprocess.check_call(
         [kafka_topic_bin, "--zookeeper", args.zookeeper, "--create", "--topic", args.topic, "--replication-factor",
-         str(args.replication), "--partitions", str(args.npartitions), " --config retention.ms", str(args.retention)])
+         str(args.replication), "--partitions", str(args.npartitions), " --config TOPIC_CONFIG", str(args.config)])
     if exitcode != 0:
         raise Exception("Error creating topic")
     if args.verbose:
