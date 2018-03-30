@@ -32,7 +32,7 @@ parser.add_argument("-nc","--nconsumers", help="number of consumers",type=int,de
 parser.add_argument("-np","--nproducers", help="number of producers",type=int,default=N_PRODUCERS)
 parser.add_argument("-f","--file", help="file where to store metrics",default=None)
 parser.add_argument("-v","--verbose", help="whether or not it should print verbose logging messages",type=bool,default=True)
-parser.add_argument("-re","--config ", help="What's the retention config in ms for the topic",default=TOPIC_COMFIG)
+parser.add_argument("-re","--config ", help="What's the retention config in ms for the topic",default=TOPIC_CONFIG)
 args = parser.parse_args()
 
 if args.verbose:
