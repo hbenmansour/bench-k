@@ -65,8 +65,6 @@ class Producer(threading.Thread):
     def run(self):
         if args.verbose:
                 print "Launching producer #"+str(self.pid)
-#TODO test this 
-                print "nmsg"+str(args.nmsg)
         output = subprocess.check_output([kafka_producer_bin,"--topic",args.topic,"--num-records",str(args.nmsg),"--record-size",str(args.msgsize),
         "--throughput",str(args.throughput),"--producer-props","acks="+ack,"bootstrap.servers="+args.kafka,"--print-metrics"])
         if args.verbose:
@@ -92,6 +90,8 @@ class Producer(threading.Thread):
 for i in range(N_ITER):
     if args.verbose:
         print "Iteration #"+str(i)
+	print "Running script with parameters:", args
+
 
     if args.verbose:
     	print "The Topic should be created by the topic controller"
