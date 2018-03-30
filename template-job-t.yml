@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Template
 metadata:
-  name: bench-k-job
+  name: job-kafka-bench
 objects:
 - apiVersion: batch/v1
   kind: Job
@@ -46,17 +46,15 @@ objects:
           imagePullPolicy: Always
           name: ${JOB_NAME}
         restartPolicy: OnFailure
-        nodeName: ocp-a1-node-bw9w
 parameters:
 - description: Job name
   displayName: Job name
   name: JOB_NAME
   value: job-kafka-bench
-#Update the image repo according to your project/registry.
 - description: Job image
   displayName: Job image
   name: JOB_IMAGE
-  value:  172.30.203.45:5000/strimzi/bench-k:latest
+  value:  172.30.203.45:5000/job-t/bench-k:latest
 - description: Bench parameter - Topic
   displayName: Bench parameter - Topic
   name: PARAM_TOPIC
