@@ -32,7 +32,7 @@ parser.add_argument("-nc","--nconsumers", help="number of consumers",type=int,de
 parser.add_argument("-np","--nproducers", help="number of producers",type=int,default=N_PRODUCERS)
 parser.add_argument("-f","--file", help="file where to store metrics",default=None)
 parser.add_argument("-v","--verbose", help="whether or not it should print verbose logging messages",type=bool,default=True)
-parser.add_argument("-re","--config ", help="What's the retention config in ms for the topic",default=TOPIC_CONFIG)
+#parser.add_argument("-re","--config ", help="What's the retention config in ms for the topic",default=TOPIC_CONFIG)
 args = parser.parse_args()
 
 if args.verbose:
@@ -93,13 +93,14 @@ for i in range(N_ITER):
         print "Iteration #"+str(i)
 
     if args.verbose:
-        print "Creating topic"
-    exitcode = subprocess.check_call(
-        [kafka_topic_bin, "--zookeeper", args.zookeeper, "--create", "--topic", args.topic, "--replication-factor",
-         str(args.replication), "--partitions", str(args.npartitions), " --config TOPIC_CONFIG", str(args.config)])
-    if exitcode != 0:
-        raise Exception("Error creating topic")
-    if args.verbose:
+    	print "The Topic should be created by the topic controller"
+#    	print "Creating topic"
+# 	exitcode = subprocess.check_call(
+#      	[kafka_topic_bin, "--zookeeper", args.zookeeper, "--create", "--topic", args.topic, "--replication-factor", str(args.replication), "--partitions", str(args.npartitions), " --config TOPIC_CONFIG", str(args.config)])
+#    	[kafka_topic_bin, "--zookeeper", args.zookeeper, "--create", "--topic", args.topic, "--replication-factor", str(args.replication), "--partitions", str(args.npartitions)])
+# 	if exitcode != 0:
+#      	raise Exception("Error creating topic")
+#   	if args.verbose:
         print "Created topic"
 
     if args.verbose:
@@ -140,12 +141,13 @@ for i in range(N_ITER):
         consumer_metrics[metric].append(value)
 
     if args.verbose:
-        print "Deleting topic"
-    exitcode = subprocess.check_call([kafka_topic_bin, "--zookeeper", args.zookeeper, "--delete", "--topic", args.topic])
-    if exitcode != 0:
-        raise Exception("Error deleting topic")
-    if args.verbose:
-        print "Deleted topic"
+	print "Make sure the Topic controller deletes the topic"
+#        print "Deleting topic"
+#    exitcode = subprocess.check_call([kafka_topic_bin, "--zookeeper", args.zookeeper, "--delete", "--topic", args.topic])
+#    if exitcode != 0:
+#        raise Exception("Error deleting topic")
+#    if args.verbose:
+#        print "Deleted topic"
 
 if args.file is not None:
         if args.verbose:
