@@ -5,17 +5,16 @@ import json
 import threading
 
 KAFKA_PATH="/opt/kafka/"
-N_MSG=1000
-MSG_SIZE=100
-TOPIC="test"
-REPLICATION=1
-N_PARTITIONS=1
-THROUGHPUT=1000
+N_MSG=200000
+MSG_SIZE=200
+TOPIC="bench01"
+REPLICATION=3
+N_PARTITIONS=10
+THROUGHPUT=18000
 ACK="None"
 N_CONSUMERS=1
 N_PRODUCERS=1
-N_ITER=1
-TOPIC_CONFIG="retention.ms 7200000"
+N_ITER=10
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-z","--zookeeper", help="address of the zookeeper cluster",required=True)
