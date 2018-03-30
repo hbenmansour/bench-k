@@ -90,7 +90,7 @@ class Producer(threading.Thread):
 for i in range(N_ITER):
     if args.verbose:
         print "Iteration #"+str(i)
-	print "Running script with parameters:", args
+	print "Parameter inside the iteration:", args
 
 
     if args.verbose:
