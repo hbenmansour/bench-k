@@ -1,12 +1,13 @@
 FROM registry.access.redhat.com/rhel:7.4
 
-RUN yum -y install java-1.8.0-openjdk-headless gettext nmap-ncat hostname python python2-pip && yum clean all -y
-RUN pip install futures
+RUN yum -y install java-1.8.0-openjdk-headless gettext nmap-ncat hostname python && yum clean all -y
 # set Kafka home folder
 ENV KAFKA_HOME=/opt/kafka
 # expose port kafka and zk 
 EXPOSE 9092 2181
-
+#install pip modules
+RUN curl "https://bootstrap.pypa.io/get-pip.py" -o "get-pip.py" && python get-pip.py
+RUN pip install futures
 
 # Add kafka group / user
 RUN groupadd -r -g 1001 kafka && useradd -r -m -u 1001 -g kafka kafka
