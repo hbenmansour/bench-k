@@ -3,9 +3,7 @@ import subprocess
 import argparse
 import json
 import threading
-import requests
 from concurrent.futures import ThreadPoolExecutor, wait, as_completed
-from time import time
 
 KAFKA_PATH="/opt/kafka/"
 N_MSG=200000
