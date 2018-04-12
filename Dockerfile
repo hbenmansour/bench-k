@@ -1,7 +1,7 @@
 FROM registry.access.redhat.com/rhel:7.4
 
-RUN yum -y install java-1.8.0-openjdk-headless gettext nmap-ncat hostname python && yum clean all -y
-
+RUN yum -y install java-1.8.0-openjdk-headless gettext nmap-ncat hostname python python-pip && yum clean all -y
+RUN pip install futures
 # set Kafka home folder
 ENV KAFKA_HOME=/opt/kafka
 # expose port kafka and zk 
