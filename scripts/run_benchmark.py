@@ -127,25 +127,23 @@ for i in range(N_ITER):
         print "Launching consumer"
     #output = subprocess.check_output([kafka_consumer_bin,"--topic",args.topic,"--broker-list",args.kafka,"--messages",str(args.nmsg),"--threads",str(args.nconsumers),
     #"--num-fetch-threads",str(args.nconsumers),"--print-metrics"])
-    output = future.result()
-    if args.verbose:
-        print "Output: "+output
-    if args.verbose:
+    for f in concurrent.futures.as_completed(future)
+        output = f.result()
         print "Consumer is done"
-    lines = output.split("\n")
-    for line in lines:
-        if not line.startswith("consumer-"):
-                continue
-        data = line.split(":")
-        metric = data[1].strip()
-        value = None
-        try:
-                value = float(data[-1].strip())
-        except:
-                value = 0
-        if metric not in consumer_metrics:
-                consumer_metrics[metric] = []
-        consumer_metrics[metric].append(value)
+        lines = output.split("\n")
+        for line in lines:
+            if not line.startswith("consumer-"):
+                    continue
+            data = line.split(":")
+            metric = data[1].strip()
+            value = None
+            try:
+                    value = float(data[-1].strip())
+            except:
+                    value = 0
+            if metric not in consumer_metrics:
+                    consumer_metrics[metric] = []
+            consumer_metrics[metric].append(value)
 
     if args.verbose:
 	print "Make sure the Topic controller deletes the topic"
