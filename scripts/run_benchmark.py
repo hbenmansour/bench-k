@@ -126,7 +126,7 @@ for i in range(N_ITER):
     if args.verbose:
         print "Launching consumer"
     #output = subprocess.check_output([kafka_consumer_bin,"--topic",args.topic,"--broker-list",args.kafka,"--messages",str(args.nmsg),"--threads",str(args.nconsumers),
-    #"--num-fetch-threads",str(args.nconsumers),"--print-metrics"])
+    #"--num-fetch-threads",str(args.nconsumers),"--print-metrics"])    
     for f in concurrent.futures.as_completed(future)
         output = f.result()
         print "Consumer is done"
