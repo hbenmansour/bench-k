@@ -3,6 +3,9 @@ import subprocess
 import argparse
 import json
 import threading
+import requests
+from concurrent.futures import ThreadPoolExecutor, wait, as_completed
+from time import time
 
 KAFKA_PATH="/opt/kafka/"
 N_MSG=200000
@@ -91,7 +94,11 @@ for i in range(N_ITER):
     if args.verbose:
         print "Iteration #"+str(i)
 	print "Parameter inside the iteration:", args
+    
 
+    pool = ThreadPoolExecutor(args.nconsumers)
+    future = pool.submit(subprocess.check_output([kafka_consumer_bin,"--topic",args.topic,"--broker-list",args.kafka,"--messages",str(args.nmsg),"--threads",str(args.nconsumers),
+    "--num-fetch-threads",str(args.nconsumers),"--print-metrics"]))
 
     if args.verbose:
     	print "The Topic should be created by the topic controller"
@@ -120,8 +127,9 @@ for i in range(N_ITER):
 
     if args.verbose:
         print "Launching consumer"
-    output = subprocess.check_output([kafka_consumer_bin,"--topic",args.topic,"--broker-list",args.kafka,"--messages",str(args.nmsg),"--threads",str(args.nconsumers),
-    "--num-fetch-threads",str(args.nconsumers),"--print-metrics"])
+    #output = subprocess.check_output([kafka_consumer_bin,"--topic",args.topic,"--broker-list",args.kafka,"--messages",str(args.nmsg),"--threads",str(args.nconsumers),
+    #"--num-fetch-threads",str(args.nconsumers),"--print-metrics"])
+    output = future.result()
     if args.verbose:
         print "Output: "+output
     if args.verbose:
