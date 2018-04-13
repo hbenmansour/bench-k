@@ -90,7 +90,6 @@ class Producer(threading.Thread):
 def consume():
     output = subprocess.check_output([kafka_consumer_bin,"--topic",args.topic,"--broker-list",args.kafka,"--messages",str(args.nmsg),"--threads",str(args.nconsumers),
     "--num-fetch-threads",str(args.nconsumers),"--print-metrics"])    
-    output = as_completed(future).result()
     print "Consumer is done"
     lines = output.split("\n")
     for line in lines:
