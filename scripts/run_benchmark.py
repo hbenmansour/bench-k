@@ -93,7 +93,8 @@ for i in range(N_ITER):
         print "Iteration #"+str(i)
 	print "Parameter inside the iteration:", args
     
-
+   if args.verbose:
+        print "Launching consumer"
     pool = ThreadPoolExecutor(args.nconsumers)
     future = pool.submit(subprocess.check_output([kafka_consumer_bin,"--topic",args.topic,"--broker-list",args.kafka,"--messages",str(args.nmsg),"--threads",str(args.nconsumers),
     "--num-fetch-threads",str(args.nconsumers),"--print-metrics"]))
@@ -123,27 +124,26 @@ for i in range(N_ITER):
     if args.verbose:
         print "All producer tasks are done"
 
-    if args.verbose:
-        print "Launching consumer"
+    #if args.verbose:
+    #    print "Launching consumer"
     #output = subprocess.check_output([kafka_consumer_bin,"--topic",args.topic,"--broker-list",args.kafka,"--messages",str(args.nmsg),"--threads",str(args.nconsumers),
     #"--num-fetch-threads",str(args.nconsumers),"--print-metrics"])    
-    for f in as_completed(future):
-        output = f.result()
-        print "Consumer is done"
-        lines = output.split("\n")
-        for line in lines:
-            if not line.startswith("consumer-"):
-                    continue
-            data = line.split(":")
-            metric = data[1].strip()
-            value = None
-            try:
-                    value = float(data[-1].strip())
-            except:
-                    value = 0
-            if metric not in consumer_metrics:
-                    consumer_metrics[metric] = []
-            consumer_metrics[metric].append(value)
+    output = as_completed(future).result()
+    print "Consumer is done"
+    lines = output.split("\n")
+    for line in lines:
+        if not line.startswith("consumer-"):
+                continue
+        data = line.split(":")
+        metric = data[1].strip()
+        value = None
+        try:
+                value = float(data[-1].strip())
+        except:
+                value = 0
+        if metric not in consumer_metrics:
+                consumer_metrics[metric] = []
+        consumer_metrics[metric].append(value)
 
     if args.verbose:
 	print "Make sure the Topic controller deletes the topic"
