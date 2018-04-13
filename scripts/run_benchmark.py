@@ -93,7 +93,7 @@ for i in range(N_ITER):
         print "Iteration #"+str(i)
 	print "Parameter inside the iteration:", args
     
-   if args.verbose:
+    if args.verbose:
         print "Launching consumer"
     pool = ThreadPoolExecutor(args.nconsumers)
     future = pool.submit(subprocess.check_output([kafka_consumer_bin,"--topic",args.topic,"--broker-list",args.kafka,"--messages",str(args.nmsg),"--threads",str(args.nconsumers),
