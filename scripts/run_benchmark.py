@@ -3,7 +3,6 @@ import subprocess
 import argparse
 import json
 import threading
-from concurrent.futures import ThreadPoolExecutor, wait, as_completed
 
 KAFKA_PATH="/opt/kafka/"
 N_MSG=200000
@@ -88,6 +87,27 @@ class Producer(threading.Thread):
                         producer_metrics[metric] = []
                 producer_metrics[metric].append(value)
 
+def consume():
+    output = subprocess.check_output([kafka_consumer_bin,"--topic",args.topic,"--broker-list",args.kafka,"--messages",str(args.nmsg),"--threads",str(args.nconsumers),
+    "--num-fetch-threads",str(args.nconsumers),"--print-metrics"])    
+    output = as_completed(future).result()
+    print "Consumer is done"
+    lines = output.split("\n")
+    for line in lines:
+        if not line.startswith("consumer-"):
+                continue
+        data = line.split(":")
+        metric = data[1].strip()
+        value = None
+        try:
+                value = float(data[-1].strip())
+        except:
+                value = 0
+        if metric not in consumer_metrics:
+                consumer_metrics[metric] = []
+        consumer_metrics[metric].append(value)
+
+
 for i in range(N_ITER):
     if args.verbose:
         print "Iteration #"+str(i)
@@ -95,9 +115,8 @@ for i in range(N_ITER):
     
     if args.verbose:
         print "Launching consumer"
-    pool = ThreadPoolExecutor(args.nconsumers)
-    future = pool.submit(subprocess.check_output([kafka_consumer_bin,"--topic",args.topic,"--broker-list",args.kafka,"--messages",str(args.nmsg),"--threads",str(args.nconsumers),
-    "--num-fetch-threads",str(args.nconsumers),"--print-metrics"]))
+    
+    consumer_thread = threading.Thread(name='consumer', target=consume)
 
     if args.verbose:
     	print "The Topic should be created by the topic controller"
@@ -124,26 +143,7 @@ for i in range(N_ITER):
     if args.verbose:
         print "All producer tasks are done"
 
-    #if args.verbose:
-    #    print "Launching consumer"
-    #output = subprocess.check_output([kafka_consumer_bin,"--topic",args.topic,"--broker-list",args.kafka,"--messages",str(args.nmsg),"--threads",str(args.nconsumers),
-    #"--num-fetch-threads",str(args.nconsumers),"--print-metrics"])    
-    output = as_completed(future).result()
-    print "Consumer is done"
-    lines = output.split("\n")
-    for line in lines:
-        if not line.startswith("consumer-"):
-                continue
-        data = line.split(":")
-        metric = data[1].strip()
-        value = None
-        try:
-                value = float(data[-1].strip())
-        except:
-                value = 0
-        if metric not in consumer_metrics:
-                consumer_metrics[metric] = []
-        consumer_metrics[metric].append(value)
+    consumer_thread.join()
 
     if args.verbose:
 	print "Make sure the Topic controller deletes the topic"
