@@ -117,6 +117,7 @@ for i in range(N_ITER):
         print "Launching consumer"
     
     consumer_thread = threading.Thread(name='consumer', target=consume)
+    consumer_thread.start()
 
     if args.verbose:
     	print "The Topic should be created by the topic controller"
